@@ -1,0 +1,47 @@
+.temp-section {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid rgb(172, 172, 176);
+  border-radius: 8px;
+  padding: 16px 45px;
+  gap: 40px;
+}
+.temp-infor {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  padding: 4px;
+  .temp-current {
+    font-size: 40px;
+    line-height: 1;
+  }
+}
+.times {
+  width: 100%;
+  display: flex;
+  gap: 50px;
+  overflow-x: scroll;
+}
+.hours {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 25px;
+  .hours-icon {
+    position: relative;
+    font-size: 50px;
+    height: 100px;
+    width: 100px;
+    .icon-img {
+      height: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

@@ -1,0 +1,51 @@
+.navigation-wrap {
+  display: flex;
+  font-size: 25px;
+  background-color: #fff;
+  padding: 30px 50px;
+  box-shadow: 1px 1px 5px rgb(172, 172, 176);
+  justify-content: space-between;
+}
+.location-section {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+.search-section {
+  display: flex;
+}
+
+.search-input {
+  height: 36px;
+  width: 230px;
+  padding: 0px 0px 0px 5px;
+  border: 2px solid rgb(172, 172, 176);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  & input[type='text']:focus {
+    border: 2px solid rgb(59, 130, 246);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+}
+
+.search-icon {
+  position: relative;
+  height: 40px;
+  width: 45px;
+  background-color: rgb(59, 130, 246);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  color: #fff;
+  &:hover {
+    background-color: rgb(37, 99, 235);
+  }
+}
+.icon {
+  font-size: 17px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
