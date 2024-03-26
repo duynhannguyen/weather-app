@@ -4,12 +4,12 @@ import WeatherToday from './components/weatherToday/WeatherToday';
 
 function App() {
   return (
-    <>
+    <div className="app-container">
       <Navigation />
-      <main>
+      <main className="main-container">
         <WeatherToday />
       </main>
-    </>
+    </div>
   );
 }
 
