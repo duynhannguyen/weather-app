@@ -1,0 +1,47 @@
+.weather-detail-wrap {
+  display: flex;
+  gap: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid rgb(172, 172, 176);
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.date-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  width: fit-content;
+}
+.date {
+  font-size: 18px;
+}
+.icon-detail {
+  height: 80px;
+  width: 80px;
+}
+.temp-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px;
+  width: 80px;
+}
+.temp-header {
+  font-size: 40px;
+  line-height: 1;
+}
+.temp-desc {
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.temp-status {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1;
+}

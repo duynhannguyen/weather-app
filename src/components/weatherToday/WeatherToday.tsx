@@ -1,5 +1,5 @@
-import { LuDroplet, LuEye, LuSunrise, LuSunset, LuWind } from 'react-icons/lu';
 import './WeatherToday.css';
+import { LuDroplet, LuEye, LuSunrise, LuSunset, LuWind } from 'react-icons/lu';
 import { FaCircle } from 'react-icons/fa';
 import { ImMeter } from 'react-icons/im';
 const mocktime = [

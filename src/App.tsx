@@ -1,15 +1,22 @@
 import './App.css';
+import MainSection from './components/mainSection/MainSection';
 import Navigation from './components/navigation/Navigation';
+import QueryProvider from './components/queryProvider/QueryProvider';
+
+import WeatherDetail from './components/weatherDetail/WeatherDetail';
 import WeatherToday from './components/weatherToday/WeatherToday';
 
 function App() {
   return (
-    <div className="app-container">
-      <Navigation />
-      <main className="main-container">
-        <WeatherToday />
-      </main>
-    </div>
+    <QueryProvider>
+      <div className="app-container">
+        <Navigation />
+        <MainSection>
+          <WeatherToday />
+          <WeatherDetail />
+        </MainSection>
+      </div>
+    </QueryProvider>
   );
 }
 
