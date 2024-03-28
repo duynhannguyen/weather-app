@@ -9,3 +9,7 @@
   font-style: normal;
   background-color: rgb(243 244 246);
 }
+button {
+  border: 0;
+  padding: 0;
+}

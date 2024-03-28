@@ -1,21 +1,73 @@
 import './WeatherToday.css';
 import { LuDroplet, LuEye, LuSunrise, LuSunset, LuWind } from 'react-icons/lu';
-import { FaCircle } from 'react-icons/fa';
 import { ImMeter } from 'react-icons/im';
+import WeatherItem from '../WeatherItem/WeatherItem';
 const mocktime = [
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
-  { hours: '9:00 pm', icon: <FaCircle />, temp: '30°' },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
+  {
+    hours: '9:00 pm',
+    icon: 'https://openweathermap.org/img/wn/02n@4x.png',
+    temp: '30°',
+  },
 ];
 const WeatherToday = () => {
   return (
@@ -32,13 +84,11 @@ const WeatherToday = () => {
         </div>
         <div className="times">
           {mocktime.map((child) => (
-            <div className="hours">
-              <p> {child.hours} </p>
-              <div className="hours-icon">
-                <div className="icon-img">{child.icon}</div>
-              </div>
-              <p>{child.temp}</p>
-            </div>
+            <WeatherItem
+              header={child.hours}
+              icon={child.icon}
+              footer={child.temp}
+            />
           ))}
         </div>
       </div>

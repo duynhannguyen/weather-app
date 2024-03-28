@@ -32,28 +32,7 @@
   gap: 50px;
   overflow-x: scroll;
 }
-.hours {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 25px;
-  .hours-icon {
-    position: relative;
-    font-size: 40px;
-    height: 80px;
-    width: 80px;
-    .icon-img {
-      height: 50px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-}
+
 .weatherDetail-container {
   display: flex;
   justify-content: center;
