@@ -2,6 +2,11 @@ import './WeatherToday.css';
 import { LuDroplet, LuEye, LuSunrise, LuSunset, LuWind } from 'react-icons/lu';
 import { ImMeter } from 'react-icons/im';
 import WeatherItem from '../WeatherItem/WeatherItem';
+import { ApiWeatherResponse } from '../ApiWeather/ApiWeather';
+
+type WeatherTodayProps = {
+  weatherData: ApiWeatherResponse;
+};
 const mocktime = [
   {
     hours: '9:00 pm',
@@ -69,7 +74,7 @@ const mocktime = [
     temp: '30°',
   },
 ];
-const WeatherToday = () => {
+const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
   return (
     <div className="weatherToday-container">
       <div className="today-date"> Monday &#40; 25.03.2024 &#41; </div>

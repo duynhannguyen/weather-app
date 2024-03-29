@@ -69,7 +69,9 @@ const ApiWeather = () => {
     queryKey: ['weather'],
     queryFn: async () => {
       const { data } = await axios.get(
-        'http://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=223fb149adbee9c73fc4a0da11f3a832&cnt=56'
+        `http://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=${
+          import.meta.env.VITE_WEATHER_API_KEY
+        }&cnt=56`
       );
       return data;
     },
@@ -83,7 +85,7 @@ const ApiWeather = () => {
     <div className="app-container">
       <Navigation setSearchValue={setSearchValue} />
       <main className="main-container">
-        <WeatherToday />
+        <WeatherToday weatherData={data} />
         <WeatherDetail />
       </main>
     </div>
