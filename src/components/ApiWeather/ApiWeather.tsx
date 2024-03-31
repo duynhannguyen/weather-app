@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import WeatherToday from '../weatherToday/WeatherToday';
-import WeatherDetail from '../weatherDetail/WeatherDetail';
-import Navigation from '../navigation/Navigation';
-import { useState } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import WeatherToday from "../weatherToday/WeatherToday";
+import WeatherDetail from "../weatherDetail/WeatherDetail";
+import Navigation from "../navigation/Navigation";
+import { useState } from "react";
 
 export type ApiWeatherResponse = {
   cod: string;
@@ -55,7 +55,7 @@ type WeatherElement = {
   visibility: number;
   pop: number;
   rain: {
-    '3h': number;
+    "3h": number;
   };
   sys: {
     pod: string;
@@ -63,23 +63,23 @@ type WeatherElement = {
   dt_txt: string;
 };
 const ApiWeather = () => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   console.log(searchValue);
   const { isPending, error, data } = useQuery<ApiWeatherResponse>({
-    queryKey: ['weather'],
+    queryKey: ["weather"],
     queryFn: async () => {
       const { data } = await axios.get(
         `http://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
-        }&cnt=56`
+        }&cnt=56&units=metric`
       );
       return data;
     },
   });
-  console.log('data', data);
-  if (isPending) return 'Loading...';
+  console.log("data", data);
+  if (isPending) return "Loading...";
 
-  if (error) return 'An error has occurred: ' + error.message;
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <div className="app-container">

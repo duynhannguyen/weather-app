@@ -57,7 +57,8 @@
   width: fit-content;
 }
 .weatherDetail-container .weather-status .status-header {
-  font-size: 15px;
+  font-size: 25px;
+  text-transform: capitalize;
   font-weight: bold;
   white-space: wrap;
 }

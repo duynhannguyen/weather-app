@@ -7,6 +7,12 @@
   font-weight: bold;
   font-size: 25px;
 }
+.weather-item-container .weather-item-header {
+  white-space: nowrap;
+}
+.weather-item-container .weather-item-footer {
+  white-space: nowrap;
+}
 .weather-item-container .weather-item-icon {
   position: relative;
   font-size: 40px;

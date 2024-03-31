@@ -6,11 +6,19 @@
   align-items: center;
   font-weight: bold;
   font-size: 25px;
+
+  .weather-item-header {
+    white-space: nowrap;
+  }
+  .weather-item-footer {
+    white-space: nowrap;
+  }
   .weather-item-icon {
     position: relative;
     font-size: 40px;
     height: 80px;
     width: 80px;
+
     .icon-img {
       height: 50px;
       position: absolute;
