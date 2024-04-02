@@ -17,12 +17,12 @@ export type ApiWeatherResponse = {
       lat: number;
       lon: number;
     };
+    country: string;
+    population: number;
+    timezone: number;
+    sunrise: number;
+    sunset: number;
   };
-  country: string;
-  population: number;
-  timezone: number;
-  sunrise: number;
-  sunset: number;
 };
 
 type WeatherElement = {
