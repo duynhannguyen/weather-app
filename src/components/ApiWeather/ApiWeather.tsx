@@ -4,6 +4,7 @@ import WeatherToday from "../weatherToday/WeatherToday";
 import WeatherDetail from "../weatherDetail/WeatherDetail";
 import Navigation from "../navigation/Navigation";
 import { useState } from "react";
+import { endOfToday, isAfter } from "date-fns";
 
 export type ApiWeatherResponse = {
   cod: string;
@@ -25,7 +26,7 @@ export type ApiWeatherResponse = {
   };
 };
 
-type WeatherElement = {
+export type WeatherElement = {
   dt: number;
   main: {
     temp: number;
@@ -64,12 +65,11 @@ type WeatherElement = {
 };
 const ApiWeather = () => {
   const [searchValue, setSearchValue] = useState("");
-  console.log(searchValue);
   const { isPending, error, data } = useQuery<ApiWeatherResponse>({
     queryKey: ["weather"],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=${
+        `http://api.openweathermap.org/data/2.5/forecast?q=ohio&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
         }&cnt=56&units=metric`
       );
@@ -80,13 +80,42 @@ const ApiWeather = () => {
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
+  const threeDayForceCast = data?.list.filter((data) => {
+    if (isAfter(data?.dt_txt, endOfToday())) {
+      return data;
+    }
+  });
 
+  const uniqueDates = [
+    ...new Set(
+      threeDayForceCast.map(
+        (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
+      )
+    ),
+  ];
+
+  const firstDataForEachDate = uniqueDates.map((date) => {
+    return threeDayForceCast.find((entry) => {
+      const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+      return entryDate === date;
+    });
+  }) as WeatherElement[];
+  console.log("firstDataForEachDate", firstDataForEachDate);
   return (
     <div className="app-container">
       <Navigation setSearchValue={setSearchValue} />
       <main className="main-container">
         <WeatherToday weatherData={data} />
-        <WeatherDetail />
+        <div className="weather-detail-container">
+          <div className="weather-detail-header">
+            {" "}
+            Forcast &#40; {`${firstDataForEachDate.length} days`} &#41;{" "}
+          </div>
+          <WeatherDetail
+            weatherDataDetail={firstDataForEachDate}
+            allWeatherData={data}
+          />
+        </div>
       </main>
     </div>
   );

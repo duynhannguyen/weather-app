@@ -29,7 +29,7 @@ function WeatherSpecificationsList(props: WeatherSpecificationsListProps) {
       />
       <SingleWeatherSpecifications
         information="Humidity"
-        indexIcon={<LuEye />}
+        indexIcon={<LuDroplet />}
         value={humidity}
       />
       <SingleWeatherSpecifications

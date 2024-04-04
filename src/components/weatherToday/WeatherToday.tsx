@@ -2,7 +2,7 @@ import "./WeatherToday.css";
 import WeatherItem from "../WeatherItem/WeatherItem";
 import { ApiWeatherResponse } from "../ApiWeather/ApiWeather";
 import { roundingNumber } from "../../utils/roundingNumber";
-import { format, fromUnixTime, parseISO } from "date-fns";
+import { format, fromUnixTime, isToday, parseISO } from "date-fns";
 import WeatherSpecificationsList from "../weatherSpecificationsList/WeatherSpecificationsList";
 import convertMetertoKilometer from "../../utils/convertMetertoKilometer";
 import convertSpeedMToKm from "../../utils/convertSpeedMToKm";
@@ -11,9 +11,12 @@ type WeatherTodayProps = {
   weatherData: ApiWeatherResponse;
 };
 const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
-  const fristData = weatherData?.list[0];
-  console.log("rise", weatherData?.city?.sunrise);
-  console.log("set", weatherData?.city?.sunset);
+  const todayData = weatherData?.list.filter((data) => {
+    if (isToday(data?.dt_txt)) {
+      return data;
+    }
+  });
+  const fristData = todayData[0];
   return (
     <div className="weatherToday-container">
       <div className="today-date">
@@ -34,8 +37,7 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
           </p>
         </div>
         <div className="times">
-          {weatherData?.list.map((child, index) => {
-            if (index > 8) return;
+          {todayData.map((child, index) => {
             return (
               <WeatherItem
                 key={index}
