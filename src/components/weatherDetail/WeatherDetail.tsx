@@ -17,7 +17,6 @@ const WeatherDetail = ({
   weatherDataDetail,
   allWeatherData,
 }: WeatherDetailProps) => {
-  console.log("weatherDataDetail", weatherDataDetail);
   return (
     <>
       {weatherDataDetail.map((data, i) => {

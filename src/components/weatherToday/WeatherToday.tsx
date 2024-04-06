@@ -33,7 +33,7 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
           <p>
             {" "}
             <span>{roundingNumber(fristData?.main?.temp_min)}°&darr;</span>{" "}
-            <span> {roundingNumber(fristData?.main?.temp_max)}&uarr; </span>
+            <span> {roundingNumber(fristData?.main?.temp_max)}°&uarr; </span>
           </p>
         </div>
         <div className="times">

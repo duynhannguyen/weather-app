@@ -1,20 +1,32 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
-import './Navigation.css';
-import { MdOutlineMyLocation, MdOutlineSearch } from 'react-icons/md';
+import {
+  ChangeEventHandler,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import "./Navigation.css";
+import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
 
 type NavigationProps = {
+  onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
   setSearchValue: Dispatch<SetStateAction<string>>;
+  searchValue: string;
 };
 
-const Navigation = ({ setSearchValue }: NavigationProps) => {
-  const [inputValue, setInputValue] = useState('');
-  const [currentCity, setCurrentCity] = useState('Hồ Chí Minh');
+const Navigation = ({
+  setSearchValue,
+  onHandleChange,
+  searchValue,
+}: NavigationProps) => {
+  const [inputValue, setInputValue] = useState("");
+  const [currentCity, setCurrentCity] = useState("Hồ Chí Minh");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchValue(inputValue);
     setCurrentCity(inputValue);
-    setInputValue('');
+    setInputValue("");
   };
 
   return (
@@ -28,11 +40,11 @@ const Navigation = ({ setSearchValue }: NavigationProps) => {
             className="search-input"
             placeholder="Search location..."
             type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={searchValue}
+            onChange={onHandleChange}
           />
           <button
-            disabled={inputValue === ''}
+            disabled={inputValue === ""}
             type="submit"
             className="search-icon"
           >
