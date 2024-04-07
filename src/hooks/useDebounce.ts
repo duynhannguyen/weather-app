@@ -1,16 +1,16 @@
-import { SetStateAction, useEffect, useState } from "react";
+type DebounceFunction = <Parameter extends any[]>(
+  cb: (...args: Parameter) => void,
+  delay?: number
+) => (...args: Parameter) => void;
 
-type UseDebounceFunction = (value: string | number, delay?: number) => void;
-
-const useDebounce: UseDebounceFunction = (value, delay = 1000) => {
-  const [DebounceValue, setDebounceValue] =
-    useState<SetStateAction<string | number>>("");
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setDebounceValue(value), delay);
-    return clearTimeout(timeout);
-  }, [value, delay]);
-
-  return DebounceValue;
+const debounce: DebounceFunction = (cb, delay = 1000) => {
+  let timeOut: ReturnType<typeof setTimeout>;
+  return (...args) => {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
 };
-export default useDebounce;
+
+export default debounce;
