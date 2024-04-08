@@ -1,0 +1,23 @@
+.suggestion-wrap {
+  position: absolute;
+  bottom: 0px;
+  transform: translateY(105%);
+  background-color: #fff;
+  box-shadow: 1px 1px 5px rgb(172, 172, 176);
+  border-radius: 4px;
+  padding: 10px;
+  width: calc(100% - 20px);
+  z-index: 1;
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .suggest-child {
+    padding: 4px;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgb(243 244 246);
+    }
+  }
+}

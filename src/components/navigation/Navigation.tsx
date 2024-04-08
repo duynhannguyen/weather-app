@@ -7,17 +7,25 @@ import {
 } from "react";
 import "./Navigation.css";
 import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
+import Suggestion from "../suggestion/Suggestion";
+import { SuggestionElement } from "../ApiWeather/ApiWeather";
 
 type NavigationProps = {
   onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
   setSearchValue: Dispatch<SetStateAction<string>>;
   searchValue: string;
+  suggestionList: SuggestionElement[];
+  showSuggestion: boolean;
+  isLoading: boolean;
 };
 
 const Navigation = ({
   setSearchValue,
   onHandleChange,
   searchValue,
+  suggestionList,
+  showSuggestion,
+  isLoading,
 }: NavigationProps) => {
   const [inputValue, setInputValue] = useState("");
   const [currentCity, setCurrentCity] = useState("Hồ Chí Minh");
@@ -50,6 +58,9 @@ const Navigation = ({
           >
             <MdOutlineSearch className="icon" />
           </button>
+          {showSuggestion && (
+            <Suggestion suggestionList={suggestionList} isLoading={isLoading} />
+          )}
         </form>
       </div>
     </nav>

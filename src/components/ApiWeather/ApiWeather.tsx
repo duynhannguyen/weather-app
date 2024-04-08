@@ -4,7 +4,7 @@ import WeatherToday from "../weatherToday/WeatherToday";
 import WeatherDetail from "../weatherDetail/WeatherDetail";
 import Navigation from "../navigation/Navigation";
 import { useEffect, useState } from "react";
-import { endOfToday, isAfter, set } from "date-fns";
+import { endOfToday, isAfter } from "date-fns";
 import Loading from "../loading/Loading";
 
 export type ApiWeatherResponse = {
@@ -64,11 +64,15 @@ export type WeatherElement = {
   };
   dt_txt: string;
 };
+
+export type SuggestionElement = {
+  name: string;
+  lat: string;
+  lon: string;
+};
 const ApiWeather = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [suggestions, setSuggestions] = useState<
-    { lat: number; lon: number; name: string }[]
-  >([]);
+  const [suggestions, setSuggestions] = useState<SuggestionElement[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [apiError, setApiError] = useState("");
   const [loadingState, setLoadingState] = useState(false);
@@ -94,9 +98,6 @@ const ApiWeather = () => {
     queryKey: ["weather"],
     queryFn: async () => {
       const { data } = await axios.get(
-        // `http://api.openweathermap.org/data/2.5/forecast?q=Ho Chi Minh City&appid=${
-        //   import.meta.env.VITE_WEATHER_API_KEY
-        // }&cnt=56&units=metric`
         `https://api.openweathermap.org/data/2.5/forecast?lat=${
           import.meta.env.VITE_DEFAULT_LAT
         }&lon=${import.meta.env.VITE_DEFAULT_LON}&appid=${
@@ -119,6 +120,8 @@ const ApiWeather = () => {
   const fetchByCity = async (city: string) => {
     try {
       setLoadingState(true);
+      setShowSuggestions(true);
+      setSuggestions([]);
       const response = await axios.get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
@@ -132,7 +135,6 @@ const ApiWeather = () => {
         }))
       );
 
-      setShowSuggestions(true);
       setApiError("");
     } catch (error) {
       setSuggestions([]);
@@ -166,10 +168,10 @@ const ApiWeather = () => {
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         onHandleChange={(e) => handleOnChange(e.target.value)}
+        suggestionList={suggestions}
+        showSuggestion={showSuggestions}
+        isLoading={loadingState}
       />
-      {loadingState && <Loading />}
-      {showSuggestions && suggestions.map((data) => <p> {data.name} </p>)}
-      {suggestions.length === 0 && showSuggestions && <p> No suggestions </p>}
       <main className="main-container">
         <WeatherToday weatherData={data} />
         <div className="weather-detail-container">

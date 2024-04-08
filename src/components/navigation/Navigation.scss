@@ -1,7 +1,7 @@
 .navigation-wrap {
   display: flex;
   font-size: 25px;
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
   padding: 30px 50px;
   box-shadow: 1px 1px 5px rgb(172, 172, 176);
   justify-content: space-between;
@@ -14,6 +14,7 @@
 }
 .search-section {
   display: flex;
+  position: relative;
 }
 
 .search-input {
@@ -23,7 +24,7 @@
   border: 2px solid rgb(172, 172, 176);
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  & input[type='text']:focus {
+  & input[type="text"]:focus {
     border: 2px solid rgb(59, 130, 246);
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;

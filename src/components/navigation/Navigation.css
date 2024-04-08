@@ -1,7 +1,7 @@
 .navigation-wrap {
   display: flex;
   font-size: 25px;
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
   padding: 30px 50px;
   box-shadow: 1px 1px 5px rgb(172, 172, 176);
   justify-content: space-between;
@@ -16,6 +16,7 @@
 
 .search-section {
   display: flex;
+  position: relative;
 }
 
 .search-input {
