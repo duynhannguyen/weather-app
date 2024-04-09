@@ -70,13 +70,19 @@ export type SuggestionElement = {
   lat: string;
   lon: string;
 };
+
 const ApiWeather = () => {
   const [searchValue, setSearchValue] = useState("");
   const [suggestions, setSuggestions] = useState<SuggestionElement[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [fetchResult, setFetchResult] = useState<SuggestionElement>({
+    lat: import.meta.env.VITE_DEFAULT_LAT,
+    lon: import.meta.env.VITE_DEFAULT_LON,
+    name: "",
+  });
   const [apiError, setApiError] = useState("");
+  console.log("apiError", apiError);
   const [loadingState, setLoadingState] = useState(false);
-  console.log("suggestions", suggestions);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     const debounceFetch = (value: string) => {
@@ -94,21 +100,37 @@ const ApiWeather = () => {
       clearTimeout(timer);
     };
   }, [searchValue]);
-  const { isPending, error, data } = useQuery<ApiWeatherResponse>({
+  const { isPending, error, data, refetch } = useQuery<ApiWeatherResponse>({
     queryKey: ["weather"],
     queryFn: async () => {
       const { data } = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${
-          import.meta.env.VITE_DEFAULT_LAT
-        }&lon=${import.meta.env.VITE_DEFAULT_LON}&appid=${
+          fetchResult.lat
+        }&lon=${fetchResult.lon}&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
         }&cnt=56&units=metric`
       );
       return data;
     },
   });
+  useEffect(() => {
+    refetch();
+  }, [refetch, fetchResult]);
   console.log(data);
-  if (isPending) return "Loading...";
+  if (isPending)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        {" "}
+        <Loading />
+      </div>
+    );
 
   if (error) return "An error has occurred: " + error.message;
   const threeDayForceCast = data?.list.filter((data) => {
@@ -122,6 +144,7 @@ const ApiWeather = () => {
       setLoadingState(true);
       setShowSuggestions(true);
       setSuggestions([]);
+      setApiError("");
       const response = await axios.get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
@@ -134,11 +157,8 @@ const ApiWeather = () => {
           name: city.name,
         }))
       );
-
-      setApiError("");
     } catch (error) {
       setSuggestions([]);
-      setShowSuggestions(false);
     } finally {
       setLoadingState(false);
     }
@@ -165,12 +185,18 @@ const ApiWeather = () => {
   return (
     <div className="app-container">
       <Navigation
+        setIsLoading={setLoadingState}
+        currentCity={data?.city.name}
         searchValue={searchValue}
+        setShowSuggestions={setShowSuggestions}
         setSearchValue={setSearchValue}
         onHandleChange={(e) => handleOnChange(e.target.value)}
         suggestionList={suggestions}
         showSuggestion={showSuggestions}
         isLoading={loadingState}
+        setFetchResult={setFetchResult}
+        setApiError={setApiError}
+        apiError={apiError}
       />
       <main className="main-container">
         <WeatherToday weatherData={data} />

@@ -7,12 +7,15 @@
   border-radius: 4px;
   padding: 10px;
   width: calc(100% - 20px);
+  min-height: 100px;
   z-index: 1;
+  animation: fadein ease-out 250ms;
 }
 .suggestion-wrap .loading {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100px;
 }
 .suggestion-wrap .suggest-child {
   padding: 4px;
@@ -20,4 +23,13 @@
 }
 .suggestion-wrap .suggest-child:hover {
   background-color: rgb(243, 244, 246);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
 }/*# sourceMappingURL=Suggestion.css.map */

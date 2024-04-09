@@ -9,6 +9,7 @@ import "./Navigation.css";
 import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
 import Suggestion from "../suggestion/Suggestion";
 import { SuggestionElement } from "../ApiWeather/ApiWeather";
+import axios from "axios";
 
 type NavigationProps = {
   onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
@@ -16,7 +17,13 @@ type NavigationProps = {
   searchValue: string;
   suggestionList: SuggestionElement[];
   showSuggestion: boolean;
+  setShowSuggestions: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  currentCity: string;
+  setFetchResult: Dispatch<SetStateAction<SuggestionElement>>;
+  setApiError: Dispatch<SetStateAction<string>>;
+  apiError: string;
 };
 
 const Navigation = ({
@@ -26,41 +33,69 @@ const Navigation = ({
   suggestionList,
   showSuggestion,
   isLoading,
+  setShowSuggestions,
+  currentCity,
+  setIsLoading,
+  setFetchResult,
+  setApiError,
+  apiError,
 }: NavigationProps) => {
-  const [inputValue, setInputValue] = useState("");
-  const [currentCity, setCurrentCity] = useState("Hồ Chí Minh");
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearchValue(inputValue);
-    setCurrentCity(inputValue);
-    setInputValue("");
+    try {
+      setIsLoading(true);
+      setShowSuggestions(false);
+      const fetchWeather = await axios.get(
+        `http://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${
+          import.meta.env.VITE_WEATHER_API_KEY
+        }&cnt=56&units=metric`
+      );
+      console.log("fetchWeather", fetchWeather?.data);
+      setFetchResult({
+        lat: fetchWeather?.data.city.coord.lat,
+        lon: fetchWeather?.data.city.coord.lon,
+        name: fetchWeather?.data.city.name,
+      });
+    } catch (error: any) {
+      setApiError(error?.response?.data?.message);
+    } finally {
+      setSearchValue("");
+      setIsLoading(false);
+    }
   };
 
   return (
     <nav className="navigation-wrap">
       <div> City Weather</div>
       <div className="location-section">
-        <MdOutlineMyLocation />
+        <div className="location-icon">
+          <MdOutlineMyLocation />
+        </div>
         <div>{currentCity}</div>
         <form onSubmit={handleSubmit} className="search-section">
           <input
             className="search-input"
             placeholder="Search location..."
             type="text"
+            name="search-bar"
             value={searchValue}
             onChange={onHandleChange}
           />
           <button
-            disabled={inputValue === ""}
+            disabled={searchValue === ""}
             type="submit"
             className="search-icon"
           >
             <MdOutlineSearch className="icon" />
           </button>
-          {showSuggestion && (
-            <Suggestion suggestionList={suggestionList} isLoading={isLoading} />
-          )}
+          {showSuggestion || apiError ? (
+            <Suggestion
+              suggestionList={suggestionList}
+              isLoading={isLoading}
+              setSuggestClose={setShowSuggestions}
+              apiError={apiError}
+            />
+          ) : null}
         </form>
       </div>
     </nav>
