@@ -8,6 +8,9 @@ type SuggestionProps = {
   isLoading: boolean;
   setSuggestClose: any;
   apiError: string;
+  setFetchResult: Dispatch<SetStateAction<SuggestionElement>>;
+  setShowSuggestions: Dispatch<SetStateAction<boolean>>;
+  setSearchValue: Dispatch<SetStateAction<string>>;
 };
 
 const Suggestion = ({
@@ -15,6 +18,9 @@ const Suggestion = ({
   isLoading,
   setSuggestClose,
   apiError,
+  setFetchResult,
+  setShowSuggestions,
+  setSearchValue,
 }: SuggestionProps) => {
   const suggestRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -42,7 +48,15 @@ const Suggestion = ({
       )}
       {apiError && <p style={{ color: "red" }}> {apiError} </p>}
       {suggestionList.map((item, i) => (
-        <div className="suggest-child" key={i}>
+        <div
+          className="suggest-child"
+          key={i}
+          onClick={() => {
+            setFetchResult({ lat: item.lat, lon: item.lon, name: item.name });
+            setShowSuggestions(false);
+            setSearchValue("");
+          }}
+        >
           {" "}
           {item.name}{" "}
         </div>

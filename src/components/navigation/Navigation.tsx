@@ -1,15 +1,10 @@
-import {
-  ChangeEventHandler,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from "react";
 import "./Navigation.css";
 import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
 import Suggestion from "../suggestion/Suggestion";
 import { SuggestionElement } from "../ApiWeather/ApiWeather";
 import axios from "axios";
+import { stringify } from "querystring";
 
 type NavigationProps = {
   onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
@@ -64,12 +59,25 @@ const Navigation = ({
     }
   };
 
+  const handleCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (location) => {
+        const { latitude, longitude } = location.coords;
+        setFetchResult({
+          lat: String(latitude),
+          lon: String(longitude),
+          name: "",
+        });
+      });
+    }
+  };
+
   return (
     <nav className="navigation-wrap">
       <div> City Weather</div>
       <div className="location-section">
-        <div className="location-icon">
-          <MdOutlineMyLocation />
+        <div className="location-icon" onClick={handleCurrentLocation}>
+          <MdOutlineMyLocation title="Your Current Location" />
         </div>
         <div>{currentCity}</div>
         <form onSubmit={handleSubmit} className="search-section">
@@ -94,6 +102,9 @@ const Navigation = ({
               isLoading={isLoading}
               setSuggestClose={setShowSuggestions}
               apiError={apiError}
+              setFetchResult={setFetchResult}
+              setShowSuggestions={setShowSuggestions}
+              setSearchValue={setSearchValue}
             />
           ) : null}
         </form>
