@@ -52,13 +52,18 @@ const Suggestion = ({
           className="suggest-child"
           key={i}
           onClick={() => {
-            setFetchResult({ lat: item.lat, lon: item.lon, name: item.name });
+            setFetchResult({
+              lat: item.lat,
+              lon: item.lon,
+              name: item.name,
+              country: item.country,
+            });
             setShowSuggestions(false);
             setSearchValue("");
           }}
         >
           {" "}
-          {item.name}{" "}
+          {item.name}, {item.country}
         </div>
       ))}
     </div>

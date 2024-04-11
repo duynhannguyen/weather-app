@@ -6,6 +6,7 @@ import Navigation from "../navigation/Navigation";
 import { useEffect, useState } from "react";
 import { endOfToday, isAfter } from "date-fns";
 import Loading from "../loading/Loading";
+import CityDetails from "../cityDetail/CityDetails";
 
 export type ApiWeatherResponse = {
   cod: string;
@@ -69,6 +70,7 @@ export type SuggestionElement = {
   name: string;
   lat: string;
   lon: string;
+  country: string;
 };
 
 const ApiWeather = () => {
@@ -79,9 +81,9 @@ const ApiWeather = () => {
     lat: import.meta.env.VITE_DEFAULT_LAT,
     lon: import.meta.env.VITE_DEFAULT_LON,
     name: "",
+    country: "",
   });
   const [apiError, setApiError] = useState("");
-  console.log("apiError", apiError);
   const [loadingState, setLoadingState] = useState(false);
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -155,6 +157,7 @@ const ApiWeather = () => {
           lat: city.lat,
           lon: city.lon,
           name: city.name,
+          country: city.country,
         }))
       );
     } catch (error) {
@@ -185,6 +188,7 @@ const ApiWeather = () => {
   return (
     <div className="app-container">
       <Navigation
+        country={data?.city.country}
         setIsLoading={setLoadingState}
         currentCity={data?.city.name}
         searchValue={searchValue}
@@ -199,6 +203,16 @@ const ApiWeather = () => {
         apiError={apiError}
       />
       <main className="main-container">
+        <CityDetails
+          cityInfor={{
+            lat: fetchResult.lat,
+            lon: fetchResult.lon,
+            name: data?.city.name,
+            country: data?.city.country,
+          }}
+          populations={data?.city.population}
+        />
+
         <WeatherToday weatherData={data} />
         <div className="weather-detail-container">
           <div className="weather-detail-header">

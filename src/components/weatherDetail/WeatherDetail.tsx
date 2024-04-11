@@ -1,6 +1,4 @@
 import "./WeatherDetail.css";
-import { LuDroplet, LuEye, LuSunrise, LuSunset, LuWind } from "react-icons/lu";
-import { ImMeter } from "react-icons/im";
 import { ApiWeatherResponse, WeatherElement } from "../ApiWeather/ApiWeather";
 import WeatherSpecificationsList from "../weatherSpecificationsList/WeatherSpecificationsList";
 import { format, fromUnixTime, parse } from "date-fns";

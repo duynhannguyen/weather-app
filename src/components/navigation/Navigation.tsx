@@ -4,7 +4,6 @@ import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
 import Suggestion from "../suggestion/Suggestion";
 import { SuggestionElement } from "../ApiWeather/ApiWeather";
 import axios from "axios";
-import { stringify } from "querystring";
 
 type NavigationProps = {
   onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
@@ -19,6 +18,7 @@ type NavigationProps = {
   setFetchResult: Dispatch<SetStateAction<SuggestionElement>>;
   setApiError: Dispatch<SetStateAction<string>>;
   apiError: string;
+  country: string;
 };
 
 const Navigation = ({
@@ -34,6 +34,7 @@ const Navigation = ({
   setFetchResult,
   setApiError,
   apiError,
+  country,
 }: NavigationProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +51,7 @@ const Navigation = ({
         lat: fetchWeather?.data.city.coord.lat,
         lon: fetchWeather?.data.city.coord.lon,
         name: fetchWeather?.data.city.name,
+        country: fetchWeather?.data.city.country,
       });
     } catch (error: any) {
       setApiError(error?.response?.data?.message);
@@ -67,6 +69,7 @@ const Navigation = ({
           lat: String(latitude),
           lon: String(longitude),
           name: "",
+          country: "",
         });
       });
     }
@@ -79,7 +82,9 @@ const Navigation = ({
         <div className="location-icon" onClick={handleCurrentLocation}>
           <MdOutlineMyLocation title="Your Current Location" />
         </div>
-        <div>{currentCity}</div>
+        <div>
+          {currentCity}, {country}{" "}
+        </div>
         <form onSubmit={handleSubmit} className="search-section">
           <input
             className="search-input"
