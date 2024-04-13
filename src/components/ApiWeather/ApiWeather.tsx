@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import WeatherToday from "../weatherToday/WeatherToday";
-import WeatherDetail from "../weatherDetail/WeatherDetail";
-import Navigation from "../navigation/Navigation";
-import { useEffect, useState } from "react";
-import { endOfToday, isAfter } from "date-fns";
-import Loading from "../loading/Loading";
-import CityDetails from "../cityDetail/CityDetails";
-
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import WeatherToday from '../weatherToday/WeatherToday';
+import WeatherDetail from '../weatherDetail/WeatherDetail';
+import Navigation from '../navigation/Navigation';
+import { useEffect, useState } from 'react';
+import { endOfToday, isAfter } from 'date-fns';
+import Loading from '../loading/Loading';
+import CityDetails from '../cityDetail/CityDetails';
+import iso from 'iso-3166-1';
 export type ApiWeatherResponse = {
   cod: string;
   message: number;
@@ -58,7 +58,7 @@ export type WeatherElement = {
   visibility: number;
   pop: number;
   rain: {
-    "3h": number;
+    '3h': number;
   };
   sys: {
     pod: string;
@@ -74,16 +74,16 @@ export type SuggestionElement = {
 };
 
 const ApiWeather = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [suggestions, setSuggestions] = useState<SuggestionElement[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [fetchResult, setFetchResult] = useState<SuggestionElement>({
     lat: import.meta.env.VITE_DEFAULT_LAT,
     lon: import.meta.env.VITE_DEFAULT_LON,
-    name: "",
-    country: "",
+    name: '',
+    country: '',
   });
-  const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState('');
   const [loadingState, setLoadingState] = useState(false);
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -103,7 +103,7 @@ const ApiWeather = () => {
     };
   }, [searchValue]);
   const { isPending, error, data, refetch } = useQuery<ApiWeatherResponse>({
-    queryKey: ["weather"],
+    queryKey: ['weather'],
     queryFn: async () => {
       const { data } = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${
@@ -115,6 +115,20 @@ const ApiWeather = () => {
       return data;
     },
   });
+
+  const airPolutionApi = useQuery({
+    queryKey: ['airPolution'],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `http://api.openweathermap.org/data/2.5/air_pollution?lat=${
+          fetchResult.lat
+        }&lon=${fetchResult.lon}&appid=${import.meta.env.VITE_WEATHER_API_KEY}`
+      );
+      return data;
+    },
+  });
+  console.log('airPolutionApi', airPolutionApi.data);
+
   useEffect(() => {
     refetch();
   }, [refetch, fetchResult]);
@@ -123,18 +137,18 @@ const ApiWeather = () => {
     return (
       <div
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
         }}
       >
-        {" "}
+        {' '}
         <Loading />
       </div>
     );
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error) return 'An error has occurred: ' + error.message;
   const threeDayForceCast = data?.list.filter((data) => {
     if (isAfter(data?.dt_txt, endOfToday())) {
       return data;
@@ -146,20 +160,24 @@ const ApiWeather = () => {
       setLoadingState(true);
       setShowSuggestions(true);
       setSuggestions([]);
-      setApiError("");
+      setApiError('');
       const response = await axios.get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
         }&cnt=56&units=metric`
       );
-      setSuggestions(
-        response?.data.map((city: any) => ({
-          lat: city.lat,
-          lon: city.lon,
-          name: city.name,
-          country: city.country,
-        }))
+      const suggestionsList = response?.data.map(
+        (city: { country: string; lat: string; lon: string; name: string }) => {
+          const countryName = iso.whereAlpha2(city.country);
+          return {
+            lat: city.lat,
+            lon: city.lon,
+            name: city.name,
+            country: countryName?.country ?? 'Unknow Country',
+          };
+        }
       );
+      setSuggestions(suggestionsList);
     } catch (error) {
       setSuggestions([]);
     } finally {
@@ -174,14 +192,14 @@ const ApiWeather = () => {
   const uniqueDates = [
     ...new Set(
       threeDayForceCast.map(
-        (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
+        (entry) => new Date(entry.dt * 1000).toISOString().split('T')[0]
       )
     ),
   ];
 
   const firstDataForEachDate = uniqueDates.map((date) => {
     return threeDayForceCast.find((entry) => {
-      const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+      const entryDate = new Date(entry.dt * 1000).toISOString().split('T')[0];
       return entryDate === date;
     });
   }) as WeatherElement[];
@@ -216,8 +234,8 @@ const ApiWeather = () => {
         <WeatherToday weatherData={data} />
         <div className="weather-detail-container">
           <div className="weather-detail-header">
-            {" "}
-            Forcast &#40; {`${firstDataForEachDate.length} days`} &#41;{" "}
+            {' '}
+            Forcast &#40; {`${firstDataForEachDate.length} days`} &#41;{' '}
           </div>
           <WeatherDetail
             weatherDataDetail={firstDataForEachDate}

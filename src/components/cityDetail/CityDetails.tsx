@@ -1,17 +1,10 @@
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  ZoomControl,
-  useMap,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import { SuggestionElement } from "../ApiWeather/ApiWeather";
-import "./CityDetails.css";
-import { FaMapMarkedAlt } from "react-icons/fa";
-import { useEffect } from "react";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { SuggestionElement } from '../ApiWeather/ApiWeather';
+import './CityDetails.css';
+import { FaMapMarkedAlt, FaThermometerEmpty } from 'react-icons/fa';
+import { useEffect } from 'react';
+import { FaPeopleGroup } from 'react-icons/fa6';
 type CityDetailsProps = {
   cityInfor: SuggestionElement;
   populations: number;
@@ -65,6 +58,13 @@ const CityDetails = ({ cityInfor, populations }: CityDetailsProps) => {
             <FlyToCurrentCity lat={+lat} lon={+lon} />
           </MapContainer>
         </div>
+      </div>
+      <div className="air_pollution-section">
+        <FaThermometerEmpty /> Air Pollution
+        <div className="air-meter">
+          <div className="air-indicator"></div>
+        </div>
+        <div>Air quality is good</div>
       </div>
     </div>
   );

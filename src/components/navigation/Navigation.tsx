@@ -1,9 +1,10 @@
-import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from "react";
-import "./Navigation.css";
-import { MdOutlineMyLocation, MdOutlineSearch } from "react-icons/md";
-import Suggestion from "../suggestion/Suggestion";
-import { SuggestionElement } from "../ApiWeather/ApiWeather";
-import axios from "axios";
+import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from 'react';
+import './Navigation.css';
+import { MdOutlineMyLocation, MdOutlineSearch } from 'react-icons/md';
+import Suggestion from '../suggestion/Suggestion';
+import { SuggestionElement } from '../ApiWeather/ApiWeather';
+import axios from 'axios';
+import iso from 'iso-3166-1';
 
 type NavigationProps = {
   onHandleChange: ChangeEventHandler<HTMLInputElement> | undefined;
@@ -36,6 +37,11 @@ const Navigation = ({
   apiError,
   country,
 }: NavigationProps) => {
+  const countryFullName = iso.whereAlpha2(country);
+  let countryFullNameStr: string = '';
+  if (countryFullName !== undefined) {
+    countryFullNameStr = countryFullName.country;
+  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -46,7 +52,7 @@ const Navigation = ({
           import.meta.env.VITE_WEATHER_API_KEY
         }&cnt=56&units=metric`
       );
-      console.log("fetchWeather", fetchWeather?.data);
+      console.log('fetchWeather', fetchWeather?.data);
       setFetchResult({
         lat: fetchWeather?.data.city.coord.lat,
         lon: fetchWeather?.data.city.coord.lon,
@@ -56,7 +62,7 @@ const Navigation = ({
     } catch (error: any) {
       setApiError(error?.response?.data?.message);
     } finally {
-      setSearchValue("");
+      setSearchValue('');
       setIsLoading(false);
     }
   };
@@ -68,8 +74,8 @@ const Navigation = ({
         setFetchResult({
           lat: String(latitude),
           lon: String(longitude),
-          name: "",
-          country: "",
+          name: '',
+          country: '',
         });
       });
     }
@@ -83,7 +89,7 @@ const Navigation = ({
           <MdOutlineMyLocation title="Your Current Location" />
         </div>
         <div>
-          {currentCity}, {country}{" "}
+          {currentCity}, {countryFullNameStr}{' '}
         </div>
         <form onSubmit={handleSubmit} className="search-section">
           <input
@@ -95,7 +101,7 @@ const Navigation = ({
             onChange={onHandleChange}
           />
           <button
-            disabled={searchValue === ""}
+            disabled={searchValue === ''}
             type="submit"
             className="search-icon"
           >
