@@ -41,25 +41,6 @@
   width: 500px;
 }
 
-.air_pollution-section {
-  font-size: 20px;
-  background-color: rgb(211, 83, 83);
-  padding: 20px;
-  border-radius: 8px;
+.air-section {
   flex-grow: 1;
-}
-.air_pollution-section .air-meter {
-  width: 100%;
-  background-color: red;
-  border: 1px solid black;
-  border-radius: 20px;
-  height: 15px;
-  margin: 15px 0;
-  position: relative;
-}
-.air_pollution-section .air-meter .air-indicator {
-  width: 15px;
-  height: 15px;
-  border-radius: 100%;
-  background-color: #fff;
 }/*# sourceMappingURL=CityDetails.css.map */

@@ -1,0 +1,20 @@
+.air_pollution-section {
+  font-size: 20px;
+  background-color: rgb(58, 110, 180);
+  padding: 20px;
+  border-radius: 8px;
+}
+.air_pollution-section .air-meter {
+  width: 100%;
+  background: linear-gradient(90deg, rgb(58, 110, 180) 20%, rgb(126, 212, 87) 40%, rgb(248, 212, 73) 60%, rgb(252, 164, 14) 80%, rgb(178, 34, 34) 100%);
+  border: 1px solid #fff;
+  border-radius: 20px;
+  height: 10px;
+  margin: 15px 0;
+}
+.air_pollution-section .air-meter .air-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #fff;
+}/*# sourceMappingURL=ProgressBar.css.map */

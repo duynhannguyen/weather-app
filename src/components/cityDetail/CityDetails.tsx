@@ -2,20 +2,25 @@ import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { SuggestionElement } from '../ApiWeather/ApiWeather';
 import './CityDetails.css';
-import { FaMapMarkedAlt, FaThermometerEmpty } from 'react-icons/fa';
+import { FaMapMarkedAlt } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { FaPeopleGroup } from 'react-icons/fa6';
+import ProgressBar from '../scoreBar/ProgressBar';
 type CityDetailsProps = {
   cityInfor: SuggestionElement;
   populations: number;
+  airQuality: number;
 };
 type CityCoords = {
   lat: number;
   lon: number;
 };
-const CityDetails = ({ cityInfor, populations }: CityDetailsProps) => {
+const CityDetails = ({
+  cityInfor,
+  populations,
+  airQuality,
+}: CityDetailsProps) => {
   const { lat, lon, name } = cityInfor;
-
   const FlyToCurrentCity = ({ lat, lon }: CityCoords) => {
     const map = useMap();
     useEffect(() => {
@@ -59,12 +64,8 @@ const CityDetails = ({ cityInfor, populations }: CityDetailsProps) => {
           </MapContainer>
         </div>
       </div>
-      <div className="air_pollution-section">
-        <FaThermometerEmpty /> Air Pollution
-        <div className="air-meter">
-          <div className="air-indicator"></div>
-        </div>
-        <div>Air quality is good</div>
+      <div className="air-section">
+        <ProgressBar score={airQuality} />
       </div>
     </div>
   );

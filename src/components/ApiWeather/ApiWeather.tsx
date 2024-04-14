@@ -127,12 +127,11 @@ const ApiWeather = () => {
       return data;
     },
   });
-  console.log('airPolutionApi', airPolutionApi.data);
 
   useEffect(() => {
     refetch();
-  }, [refetch, fetchResult]);
-  console.log(data);
+    airPolutionApi.refetch();
+  }, [refetch, fetchResult, airPolutionApi]);
   if (isPending)
     return (
       <div
@@ -154,7 +153,7 @@ const ApiWeather = () => {
       return data;
     }
   });
-
+  console.log('air', airPolutionApi?.data?.list[0]?.main.aqi);
   const fetchByCity = async (city: string) => {
     try {
       setLoadingState(true);
@@ -229,6 +228,7 @@ const ApiWeather = () => {
             country: data?.city.country,
           }}
           populations={data?.city.population}
+          airQuality={airPolutionApi?.data?.list[0].main.aqi}
         />
 
         <WeatherToday weatherData={data} />
