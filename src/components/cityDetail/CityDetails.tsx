@@ -5,11 +5,13 @@ import './CityDetails.css';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { FaPeopleGroup } from 'react-icons/fa6';
-import ProgressBar from '../scoreBar/ProgressBar';
+import AirPollution from '../airPollution/AirPollution';
+import UvIndex from '../uvIndex/UvIndex';
 type CityDetailsProps = {
   cityInfor: SuggestionElement;
   populations: number;
   airQuality: number;
+  uvIndex: number;
 };
 type CityCoords = {
   lat: number;
@@ -19,6 +21,7 @@ const CityDetails = ({
   cityInfor,
   populations,
   airQuality,
+  uvIndex,
 }: CityDetailsProps) => {
   const { lat, lon, name } = cityInfor;
   const FlyToCurrentCity = ({ lat, lon }: CityCoords) => {
@@ -64,8 +67,13 @@ const CityDetails = ({
           </MapContainer>
         </div>
       </div>
-      <div className="air-section">
-        <ProgressBar score={airQuality} />
+      <div className="city-index-section">
+        <div className="air-section">
+          <AirPollution score={airQuality} />
+        </div>
+        <div>
+          <UvIndex score={uvIndex} />
+        </div>
       </div>
     </div>
   );

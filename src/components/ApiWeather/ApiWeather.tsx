@@ -72,7 +72,28 @@ export type SuggestionElement = {
   lon: string;
   country: string;
 };
-
+export type ApiAirQualityResponse = {
+  coord: {
+    lon: number;
+    lat: number;
+  };
+  list: {
+    main: {
+      aqi: number;
+    };
+    components: {
+      co: number;
+      no: number;
+      no2: number;
+      o3: number;
+      so2: number;
+      pm2_5: number;
+      pm10: number;
+      nh3: number;
+    };
+    dt: number;
+  }[];
+};
 const ApiWeather = () => {
   const [searchValue, setSearchValue] = useState('');
   const [suggestions, setSuggestions] = useState<SuggestionElement[]>([]);
@@ -128,11 +149,22 @@ const ApiWeather = () => {
     },
   });
 
+  const currentUvIndexApi = useQuery({
+    queryKey: ['uvIndex'],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `https://api.open-meteo.com/v1/forecast?latitude=${fetchResult.lat}&longitude=${fetchResult.lon}&daily=uv_index_max&forecast_days=1`
+      );
+      return data;
+    },
+  });
   useEffect(() => {
     refetch();
     airPolutionApi.refetch();
-  }, [refetch, fetchResult, airPolutionApi]);
-  if (isPending)
+    currentUvIndexApi.refetch();
+  }, [refetch, fetchResult, airPolutionApi, currentUvIndexApi]);
+
+  if (isPending || airPolutionApi.isPending || currentUvIndexApi.isPending)
     return (
       <div
         style={{
@@ -142,7 +174,6 @@ const ApiWeather = () => {
           height: '100vh',
         }}
       >
-        {' '}
         <Loading />
       </div>
     );
@@ -153,7 +184,6 @@ const ApiWeather = () => {
       return data;
     }
   });
-  console.log('air', airPolutionApi?.data?.list[0]?.main.aqi);
   const fetchByCity = async (city: string) => {
     try {
       setLoadingState(true);
@@ -229,6 +259,7 @@ const ApiWeather = () => {
           }}
           populations={data?.city.population}
           airQuality={airPolutionApi?.data?.list[0].main.aqi}
+          uvIndex={currentUvIndexApi?.data?.daily?.uv_index_max[0]}
         />
 
         <WeatherToday weatherData={data} />

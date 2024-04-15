@@ -36,5 +36,11 @@
   width: 500px;
 }
 .air-section {
+}
+.city-index-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   flex-grow: 1;
+  justify-content: center;
 }

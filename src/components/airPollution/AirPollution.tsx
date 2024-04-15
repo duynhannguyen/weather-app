@@ -1,12 +1,11 @@
 import { FaThermometerEmpty } from 'react-icons/fa';
-import './ProgressBar.css';
 import { airQualityIndex } from '../../constants/constants';
-
-type ProgressBarProps = {
+import './AirPollution.css';
+type AirPollutionProps = {
   score: number;
 };
 
-const ProgressBar = ({ score }: ProgressBarProps) => {
+const AirPollution = ({ score }: AirPollutionProps) => {
   const scoreInPerCent = score * 20;
 
   if (scoreInPerCent > 100) {
@@ -40,4 +39,4 @@ const ProgressBar = ({ score }: ProgressBarProps) => {
   );
 };
 
-export default ProgressBar;
+export default AirPollution;
