@@ -141,7 +141,7 @@ const ApiWeather = () => {
     queryKey: ['airPolution'],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://api.openweathermap.org/data/2.5/air_pollution?lat=${
+        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${
           fetchResult.lat
         }&lon=${fetchResult.lon}&appid=${import.meta.env.VITE_WEATHER_API_KEY}`
       );
@@ -152,7 +152,7 @@ const ApiWeather = () => {
     queryKey: ['uvIndex'],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://api.open-meteo.com/v1/forecast?latitude=${fetchResult.lat}&longitude=${fetchResult.lon}&daily=uv_index_max&forecast_days=1`
+        `https://api.open-meteo.com/v1/forecast?latitude=${fetchResult.lat}&longitude=${fetchResult.lon}&daily=uv_index_max&forecast_days=1`
       );
       return data;
     },
