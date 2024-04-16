@@ -18,7 +18,10 @@ const AirPollution = ({ score }: AirPollutionProps) => {
     <div
       style={
         airDescription
-          ? { background: `${airDescription.background}` }
+          ? {
+              background: `${airDescription.background}`,
+              boxShadow: `1px 1px 10px 1px ${airDescription.background}  `,
+            }
           : { background: 'rgba(58, 110, 180, 1)' }
       }
       className="air_pollution-section"

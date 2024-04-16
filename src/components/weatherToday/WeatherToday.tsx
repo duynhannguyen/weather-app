@@ -1,11 +1,11 @@
-import "./WeatherToday.css";
-import WeatherItem from "../WeatherItem/WeatherItem";
-import { ApiWeatherResponse } from "../ApiWeather/ApiWeather";
-import { roundingNumber } from "../../utils/roundingNumber";
-import { format, fromUnixTime, isToday, parseISO } from "date-fns";
-import WeatherSpecificationsList from "../weatherSpecificationsList/WeatherSpecificationsList";
-import convertMetertoKilometer from "../../utils/convertMetertoKilometer";
-import convertSpeedMToKm from "../../utils/convertSpeedMToKm";
+import './WeatherToday.css';
+import WeatherItem from '../WeatherItem/WeatherItem';
+import { ApiWeatherResponse } from '../ApiWeather/ApiWeather';
+import { roundingNumber } from '../../utils/roundingNumber';
+import { format, fromUnixTime, isToday, parseISO } from 'date-fns';
+import WeatherSpecificationsList from '../weatherSpecificationsList/WeatherSpecificationsList';
+import convertMetertoKilometer from '../../utils/convertMetertoKilometer';
+import convertSpeedMToKm from '../../utils/convertSpeedMToKm';
 
 type WeatherTodayProps = {
   weatherData: ApiWeatherResponse;
@@ -20,9 +20,9 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
   return (
     <div className="weatherToday-container">
       <div className="today-date">
-        {" "}
-        {format(parseISO(fristData?.dt_txt ?? ""), "EEEE")} &#40;{" "}
-        {format(parseISO(fristData?.dt_txt ?? ""), "dd.MM.yy")} &#41;{" "}
+        {' '}
+        {format(parseISO(fristData?.dt_txt ?? ''), 'EEEE')} &#40;{' '}
+        {format(parseISO(fristData?.dt_txt ?? ''), 'dd.MM.yy')} &#41;{' '}
       </div>
       <div className="temp-section">
         <div className="temp-infor">
@@ -31,8 +31,8 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
           </span>
           <p> Feels like {roundingNumber(fristData?.main.feels_like)}°</p>
           <p>
-            {" "}
-            <span>{roundingNumber(fristData?.main?.temp_min)}°&darr;</span>{" "}
+            {' '}
+            <span>{roundingNumber(fristData?.main?.temp_min)}°&darr;</span>{' '}
             <span> {roundingNumber(fristData?.main?.temp_max)}°&uarr; </span>
           </p>
         </div>
@@ -41,7 +41,7 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
             return (
               <WeatherItem
                 key={index}
-                header={format(parseISO(child?.dt_txt), "h:mm a")}
+                header={format(parseISO(child?.dt_txt), 'h:mm a')}
                 icon={child?.weather[0]?.icon}
                 footer={roundingNumber(child?.main?.temp)}
               />
@@ -52,8 +52,8 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
       <div className="weatherDetail-container">
         <div className="weather-status">
           <span className="status-header">
-            {" "}
-            {fristData?.weather[0]?.description}{" "}
+            {' '}
+            {fristData?.weather[0]?.description}{' '}
           </span>
           <div className="status-icon">
             <img
@@ -70,11 +70,11 @@ const WeatherToday = ({ weatherData }: WeatherTodayProps) => {
             airPressure={`${fristData?.main?.pressure}hPa`}
             sunrise={`${format(
               fromUnixTime(weatherData?.city?.sunrise ?? 12),
-              "p"
+              'p'
             )}`}
             sunset={`${format(
               fromUnixTime(weatherData?.city?.sunset ?? 12),
-              "p"
+              'p'
             )}`}
           />
         </div>

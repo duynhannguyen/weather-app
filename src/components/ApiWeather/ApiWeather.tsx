@@ -148,7 +148,6 @@ const ApiWeather = () => {
       return data;
     },
   });
-
   const currentUvIndexApi = useQuery({
     queryKey: ['uvIndex'],
     queryFn: async () => {
