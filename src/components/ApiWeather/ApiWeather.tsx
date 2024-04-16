@@ -152,7 +152,7 @@ const ApiWeather = () => {
     queryKey: ['uvIndex'],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=${fetchResult.lat}&longitude=${fetchResult.lon}&daily=uv_index_max&forecast_days=1`
+        `http://api.open-meteo.com/v1/forecast?latitude=${fetchResult.lat}&longitude=${fetchResult.lon}&daily=uv_index_max&forecast_days=1`
       );
       return data;
     },
@@ -161,7 +161,7 @@ const ApiWeather = () => {
     refetch();
     airPolutionApi.refetch();
     currentUvIndexApi.refetch();
-  }, [refetch, fetchResult, airPolutionApi, currentUvIndexApi]);
+  }, [fetchResult]);
 
   if (isPending || airPolutionApi.isPending || currentUvIndexApi.isPending)
     return (

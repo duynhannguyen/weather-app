@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { SuggestionElement } from "../ApiWeather/ApiWeather";
-import Loading from "../loading/Loading";
-import "./Suggestion.css";
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { SuggestionElement } from '../ApiWeather/ApiWeather';
+import Loading from '../loading/Loading';
+import './Suggestion.css';
 
 type SuggestionProps = {
   suggestionList: SuggestionElement[];
   isLoading: boolean;
-  setSuggestClose: any;
+  setSuggestClose: Dispatch<SetStateAction<boolean>>;
   apiError: string;
   setFetchResult: Dispatch<SetStateAction<SuggestionElement>>;
   setShowSuggestions: Dispatch<SetStateAction<boolean>>;
@@ -24,14 +24,14 @@ const Suggestion = ({
 }: SuggestionProps) => {
   const suggestRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    let click = (e: MouseEvent) => {
+    const click = (e: MouseEvent) => {
       if (!suggestRef.current?.contains(e.target as Node)) {
         setSuggestClose(false);
       }
     };
-    document.addEventListener("mousedown", click);
+    document.addEventListener('mousedown', click);
     return () => {
-      document.removeEventListener("mousedown", click);
+      document.removeEventListener('mousedown', click);
     };
   });
 
@@ -39,14 +39,14 @@ const Suggestion = ({
     <div ref={suggestRef} className="suggestion-wrap">
       {isLoading && (
         <div className="loading">
-          {" "}
-          <Loading />{" "}
+          {' '}
+          <Loading />{' '}
         </div>
       )}
       {suggestionList.length === 0 && !isLoading && !apiError && (
         <p>No suggestions</p>
       )}
-      {apiError && <p style={{ color: "red" }}> {apiError} </p>}
+      {apiError && <p style={{ color: 'red' }}> {apiError} </p>}
       {suggestionList.map((item, i) => (
         <div
           className="suggest-child"
@@ -59,10 +59,10 @@ const Suggestion = ({
               country: item.country,
             });
             setShowSuggestions(false);
-            setSearchValue("");
+            setSearchValue('');
           }}
         >
-          {" "}
+          {' '}
           {item.name}, {item.country}
         </div>
       ))}
