@@ -48,7 +48,7 @@ const Navigation = ({
       setIsLoading(true);
       setShowSuggestions(false);
       const fetchWeather = await axios.get(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${
+        `https://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
         }&cnt=56&units=metric`
       );
